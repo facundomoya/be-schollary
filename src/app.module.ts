@@ -8,6 +8,7 @@ import { InstitucionModuloModule } from './institucion_modulo/institucion_modulo
 import { AlumnoModule } from './alumno/alumno.module';
 import { PagoModule } from './pago/pago.module';
 import { AsistenciaModule } from './asistencia/asistencia.module';
+import { Modulo } from './modulo/entities/modulo.entity';
 
 @Module({
   imports: [
@@ -18,8 +19,8 @@ import { AsistenciaModule } from './asistencia/asistencia.module';
       username: 'root',
       password: '1234',
       database: 'schollary',
-      entities: [User, Institucion],
-      synchronize: true,          
+      entities: [User, Institucion, Modulo, InstitucionModuloModule],
+      synchronize: true,
     }),
     TypeOrmModule.forFeature([User, Institucion]),
     InstitucionModule,
