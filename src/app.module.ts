@@ -6,12 +6,12 @@ import { InstitucionModule } from './institucion/institucion.module';
 import { ModuloModule } from './modulo/modulo.module';
 import { InstitucionModuloModule } from './institucion_modulo/institucion_modulo.module';
 import { AlumnoModule } from './alumno/alumno.module';
-import { PagoModule } from './pago/pago.module';
 import { AsistenciaModule } from './asistencia/asistencia.module';
 import { Modulo } from './modulo/entities/modulo.entity';
 import { MateriaModule } from './materia/materia.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
 import { EvaluacionAlumnoModule } from './evaluacion_alumno/evaluacion_alumno.module';
+import { Alumno } from './alumno/entities/alumno.entity';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { EvaluacionAlumnoModule } from './evaluacion_alumno/evaluacion_alumno.mo
       username: 'root',
       password: '1234',
       database: 'schollary',
-      entities: [User, Institucion, Modulo, InstitucionModuloModule],
+      entities: [User, Institucion, Modulo, Alumno], //no van tablas intermedias 
       synchronize: true,
     }),
     TypeOrmModule.forFeature([User, Institucion]),
@@ -30,7 +30,6 @@ import { EvaluacionAlumnoModule } from './evaluacion_alumno/evaluacion_alumno.mo
     ModuloModule,
     InstitucionModuloModule,
     AlumnoModule,
-    PagoModule,
     AsistenciaModule,
     MateriaModule,
     EvaluacionModule,

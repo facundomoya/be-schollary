@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinTable, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Modulo } from 'src/modulo/entities/modulo.entity';
+import { Alumno } from 'src/alumno/entities/alumno.entity';
 
 @Entity('institucion')
 export class Institucion {
@@ -16,4 +17,7 @@ export class Institucion {
     @ManyToMany(() => Modulo, (modulo) => modulo.instituciones)
     @JoinTable({ name: 'institucion_modulo' }) // tabla puente
     modulos: Modulo[];
+
+    @OneToMany(() => Alumno, (alumno) => alumno.institucion)
+    alumnos: Alumno[];
 };
