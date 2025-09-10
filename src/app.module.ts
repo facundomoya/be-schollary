@@ -9,6 +9,9 @@ import { AlumnoModule } from './alumno/alumno.module';
 import { PagoModule } from './pago/pago.module';
 import { AsistenciaModule } from './asistencia/asistencia.module';
 import { Modulo } from './modulo/entities/modulo.entity';
+import { MateriaModule } from './materia/materia.module';
+import { EvaluacionModule } from './evaluacion/evaluacion.module';
+import { EvaluacionAlumnoModule } from './evaluacion_alumno/evaluacion_alumno.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { Modulo } from './modulo/entities/modulo.entity';
     AlumnoModule,
     PagoModule,
     AsistenciaModule,
+    MateriaModule,
+    EvaluacionModule,
+    EvaluacionAlumnoModule,
   ],
 })
 export class AppModule {}
