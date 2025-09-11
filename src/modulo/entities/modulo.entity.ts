@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToMany } from 'typeorm';
-import { Institucion } from '../../institucion/entities/institucion.entity';
-@Entity()
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
+import { InstitucionModulo } from '../../institucion/entities/institucion_modulo.entity';
+@Entity('modulo')
 export class Modulo {
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,6 +9,7 @@ export class Modulo {
     @Column()
     descripcion: string;
 
-    @ManyToMany(() => Institucion, (institucion) => institucion.modulos)
-    instituciones: Institucion[];
+    @OneToMany(() => InstitucionModulo, InstitucionModulo => InstitucionModulo.modulo)
+    institucionModulo: InstitucionModulo[]; 
+
 }

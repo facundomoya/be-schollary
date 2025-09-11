@@ -2,14 +2,15 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { InstitucionService } from './institucion.service';
 import { CreateInstitucionDto } from './dto/create-institucion.dto';
 import { UpdateInstitucionDto } from './dto/update-institucion.dto';
+import { create } from 'domain';
 
 @Controller('institucion')
 export class InstitucionController {
   constructor(private readonly institucionService: InstitucionService) {}
 
-  @Post('crear')
-  async create(@Body() createInstitucionDto: CreateInstitucionDto) {
-    return await this.institucionService.create(createInstitucionDto);
+ @Post()
+  create(@Body() createInstitucionDto: CreateInstitucionDto) {
+    return this.institucionService.create(createInstitucionDto);
   }
 
   @Get()

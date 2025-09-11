@@ -13,17 +13,8 @@ export class InstitucionService {
     private institucionRepo: Repository<Institucion>,
   ) {}
 
- async create(createDto: CreateInstitucionDto) {
-    const institucion = this.institucionRepo.create({ 
-      nombre: createDto.nombre,
-      user: {
-        user_name: createDto.user.user_name,
-        password: createDto.user.password,
-      }
-    });
-
-    await this.institucionRepo.save(institucion);
-    return { institucion };
+  create(createDto: CreateInstitucionDto) {
+    return 'This action adds a new institucion';
   }
 
   findAll() {

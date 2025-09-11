@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Institucion } from 'src/institucion/entities/institucion.entity';
+import { Evaluacion } from 'src/evaluacion/entities/evaluacion.entity';
 
 @Entity('alumno')
 export class Alumno {
@@ -11,9 +12,5 @@ export class Alumno {
     apellido: string
     @Column()
     edad: number
-
-    @ManyToOne(() => Institucion, (institucion) => institucion.alumnos)
-    @JoinColumn({name : 'institucionId'})
-    institucion: Institucion;
 
 }
