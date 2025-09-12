@@ -6,6 +6,7 @@ import { AlumnoModule } from './alumno/alumno.module';
 import { AsistenciaModule } from './asistencia/asistencia.module';
 import { MateriaModule } from './materia/materia.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -16,10 +17,12 @@ import { EvaluacionModule } from './evaluacion/evaluacion.module';
       username: 'root',
       password: '1234',
       database: 'schollary',
-      synchronize: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
+
     
     InstitucionModule,
+    UserModule,
     ModuloModule,
     AlumnoModule,
     AsistenciaModule,
