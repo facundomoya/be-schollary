@@ -1,6 +1,5 @@
-import { Entity, OneToMany, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { Evaluacion } from 'src/evaluacion/entities/evaluacion.entity';
 
 @Entity('materia')
 export class Materia {
@@ -9,4 +8,7 @@ export class Materia {
 
   @Column()
   nombre: string;
+
+  @ManyToOne(() => User, (user) => user.materias)
+  user: User;
 }

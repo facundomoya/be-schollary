@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Institucion } from '../../institucion/entities/institucion.entity';
-
+import { Materia } from '../../materia/entities/materia.entity';
 @Entity('user')
 export class User {
     @PrimaryGeneratedColumn()
@@ -16,4 +16,6 @@ export class User {
     @JoinColumn()
     institucion: Institucion;
 
+    @OneToMany(() => Materia, (materia) => materia.user)
+    materias: Materia[];
 };

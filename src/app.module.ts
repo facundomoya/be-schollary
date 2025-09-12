@@ -17,7 +17,6 @@ import { EvaluacionModule } from './evaluacion/evaluacion.module';
       password: '1234',
       database: 'schollary',
       synchronize: true,
-      autoLoadEntities: true
     }),
     
     InstitucionModule,
