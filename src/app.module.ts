@@ -17,7 +17,7 @@ import { UserModule } from './user/user.module';
       username: 'root',
       password: '1234',
       database: 'schollary',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: ['/**/*.entity{.ts,.js}'],
     }),
 
     
