@@ -13,8 +13,10 @@ export class InstitucionService {
     private institucionRepo: Repository<Institucion>,
   ) {}
 
-  create(createDto: CreateInstitucionDto) {
-    return 'This action adds a new institucion';
+  async create(createInstitucionDto: CreateInstitucionDto) {
+    const institucion = this.institucionRepo.create(createInstitucionDto);
+    await this.institucionRepo.save(institucion);
+    return institucion;
   }
 
   findAll() {

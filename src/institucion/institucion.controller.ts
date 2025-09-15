@@ -8,7 +8,7 @@ import { create } from 'domain';
 export class InstitucionController {
   constructor(private readonly institucionService: InstitucionService) {}
 
- @Post()
+ @Post('/crear')
   create(@Body() createInstitucionDto: CreateInstitucionDto) {
     return this.institucionService.create(createInstitucionDto);
   }

@@ -11,16 +11,19 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,                  
-      username: 'root',
-      password: '1234',
-      database: 'schollary',
-      entities: ['/**/*.entity{.ts,.js}'],
+      type: "mysql",
+      host: "localhost",
+      port: 3306,
+      username: "root",
+      password: "1234",
+      database: "schollary",
+      entities: [__dirname + "/**/*.entity{.ts,.js}"],
+      migrations: [__dirname + "/migrations/*{.ts,.js}"],
+      synchronize: false,
+      logging: true,
     }),
 
-    
+
     InstitucionModule,
     UserModule,
     ModuloModule,
@@ -30,4 +33,4 @@ import { UserModule } from './user/user.module';
     EvaluacionModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
