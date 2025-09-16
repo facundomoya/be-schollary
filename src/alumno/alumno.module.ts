@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Alumno } from './entities/alumno.entity';
 import { EvaluacionAlumno } from './entities/evaluacion_alumno.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([Alumno, EvaluacionAlumno])],
+  imports: [TypeOrmModule.forFeature([Alumno])],
   controllers: [AlumnoController],
   providers: [AlumnoService],
 })
