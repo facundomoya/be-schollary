@@ -7,7 +7,7 @@ import { AsistenciaModule } from './asistencia/asistencia.module';
 import { MateriaModule } from './materia/materia.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
 import { UserModule } from './user/user.module';
-
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -31,6 +31,7 @@ import { UserModule } from './user/user.module';
     AsistenciaModule,
     MateriaModule,
     EvaluacionModule,
+    AuthModule,
   ],
 })
 export class AppModule { }

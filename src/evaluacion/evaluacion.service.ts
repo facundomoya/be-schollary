@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEvaluacionDto } from './dto/create-evaluacion.dto';
 import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
-import { EvaluacionAlumno } from './entities/evaluacion_alumno.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Evaluacion } from './entities/evaluacion.entity';
