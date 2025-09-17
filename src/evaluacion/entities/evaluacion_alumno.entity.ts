@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Evaluacion} from './evaluacion.entity';
 import { Alumno} from '../../alumno/entities/alumno.entity'
 
@@ -6,6 +6,9 @@ import { Alumno} from '../../alumno/entities/alumno.entity'
 export class EvaluacionAlumno {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  nota: number;
 
   @ManyToOne(() => Evaluacion, (evaluacion) => evaluacion.alumnos)
   evaluaciones: Evaluacion;

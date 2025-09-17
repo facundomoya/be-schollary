@@ -1,11 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEvaluacionDto } from './dto/create-evaluacion.dto';
 import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
+import { EvaluacionAlumno } from './entities/evaluacion_alumno.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Evaluacion } from './entities/evaluacion.entity';
+import { Materia } from 'src/materia/entities/materia.entity';
 
 @Injectable()
 export class EvaluacionService {
-  create(createEvaluacionDto: CreateEvaluacionDto) {
-    return 'This action adds a new evaluacion';
+  constructor(
+    @InjectRepository(Evaluacion)
+    private evaluacionRepository: Repository<Evaluacion>,
+  ) {}
+
+  async create(createEvaluacionDto: CreateEvaluacionDto) {
+  const { materiaId } = createEvaluacionDto;
+
+  const evaluacion = this.evaluacionRepository.create({
+    materia: { id: materiaId } as Materia,
+  });
+
+  return await this.evaluacionRepository.save(evaluacion);
   }
 
   findAll() {

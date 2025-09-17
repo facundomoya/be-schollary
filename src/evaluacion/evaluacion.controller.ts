@@ -8,7 +8,7 @@ export class EvaluacionController {
   constructor(private readonly evaluacionService: EvaluacionService) {}
 
   @Post()
-  create(@Body() createEvaluacionDto: CreateEvaluacionDto) {
+  create(@Body('/crear') createEvaluacionDto: CreateEvaluacionDto) {
     return this.evaluacionService.create(createEvaluacionDto);
   }
 

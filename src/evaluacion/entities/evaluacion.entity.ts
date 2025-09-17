@@ -7,9 +7,6 @@ export class Evaluacion {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  nota: number;
-
   @OneToMany(() => EvaluacionAlumno, evaluacionAlumno => evaluacionAlumno.evaluaciones)
   alumnos: EvaluacionAlumno[];
 
