@@ -1,6 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Evaluacion} from './evaluacion.entity';
-import { Alumno} from '../../alumno/entities/alumno.entity'
+import { Column, Entity, ForeignKey, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('evaluacion_alumno')
 export class EvaluacionAlumno {
@@ -10,9 +8,4 @@ export class EvaluacionAlumno {
   @Column()
   nota: number;
 
-  @ManyToOne(() => Evaluacion, (evaluacion) => evaluacion.alumnos)
-  evaluaciones: Evaluacion;
-
-  @ManyToOne(() => Alumno, (alumno) => alumno.evaluaciones)
-  alumnos: Alumno;
 }

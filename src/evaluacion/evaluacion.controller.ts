@@ -7,8 +7,8 @@ import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
 export class EvaluacionController {
   constructor(private readonly evaluacionService: EvaluacionService) {}
 
-  @Post()
-  create(@Body('/crear') createEvaluacionDto: CreateEvaluacionDto) {
+  @Post('/crear')
+  create(@Body() createEvaluacionDto: CreateEvaluacionDto) {
     return this.evaluacionService.create(createEvaluacionDto);
   }
 

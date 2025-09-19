@@ -4,7 +4,6 @@ import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Evaluacion } from './entities/evaluacion.entity';
-import { Materia } from 'src/materia/entities/materia.entity';
 
 @Injectable()
 export class EvaluacionService {
@@ -13,15 +12,7 @@ export class EvaluacionService {
     private evaluacionRepository: Repository<Evaluacion>,
   ) {}
 
-  async create(createEvaluacionDto: CreateEvaluacionDto) {
-  const { materiaId } = createEvaluacionDto;
-
-  const evaluacion = this.evaluacionRepository.create({
-    materia: { id: materiaId } as Materia,
-  });
-
-  return await this.evaluacionRepository.save(evaluacion);
-  }
+  async create(createEvaluacionDto: CreateEvaluacionDto) {}
 
   findAll() {
     return `This action returns all evaluacion`;

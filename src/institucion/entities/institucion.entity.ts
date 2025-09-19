@@ -1,6 +1,6 @@
-import { InstitucionModulo } from './institucion_modulo.entity';
+import { Modulo } from 'src/modulo/entities/modulo.entity';
 import { Alumno } from '../../alumno/entities/alumno.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('institucion')
 export class Institucion {
     @PrimaryGeneratedColumn()
@@ -9,10 +9,14 @@ export class Institucion {
     @Column()
     nombre: string;
 
-    @OneToMany(() => InstitucionModulo, InstitucionModulo => InstitucionModulo.institucion)
-    institucionModulo: InstitucionModulo[];
-
-    @OneToMany(() => Alumno, alumno => alumno.institucion)
+    @OneToMany(() => Alumno, (alumno) => alumno.institucion)
     alumnos: Alumno[];
 
+    @ManyToMany(() => Modulo)
+    @JoinTable({
+        name: 'institucion_modulo',
+        joinColumn: { name: 'institucionId', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'moduloId', referencedColumnName: 'id' },
+    })
+    modulos: Modulo[];
 };
