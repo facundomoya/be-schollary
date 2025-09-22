@@ -14,9 +14,7 @@ export class Institucion {
 
     @ManyToMany(() => Modulo)
     @JoinTable({
-        name: 'institucion_modulo',
-        joinColumn: { name: 'institucionId', referencedColumnName: 'id' },
-        inverseJoinColumn: { name: 'moduloId', referencedColumnName: 'id' },
+        name: 'institucion_modulo'
     })
     modulos: Modulo[];
 };
