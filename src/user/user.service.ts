@@ -5,17 +5,20 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Institucion } from '../institucion/entities/institucion.entity';
+import { Bcrypt } from 'src/common/encriptador/bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private bcrypt: Bcrypt,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
     const institucionId = createUserDto.institucionId;
+    user.password = await this.bcrypt.encriptar(user.password);
     if(institucionId){
       user.institucion = { id: institucionId } as Institucion;
     }

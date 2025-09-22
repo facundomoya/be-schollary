@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Institucion } from './entities/institucion.entity';
-import { User } from '../user/entities/user.entity';
 import { CreateInstitucionDto } from './dto/create-institucion.dto';
 import { UpdateInstitucionDto } from './dto/update-institucion.dto';
 
@@ -10,12 +9,12 @@ import { UpdateInstitucionDto } from './dto/update-institucion.dto';
 export class InstitucionService {
    constructor(
     @InjectRepository(Institucion)
-    private institucionRepo: Repository<Institucion>,
+    private institucionRepository: Repository<Institucion>,
   ) {}
 
   async create(createInstitucionDto: CreateInstitucionDto) {
-    const institucion = this.institucionRepo.create(createInstitucionDto);
-    await this.institucionRepo.save(institucion);
+    const institucion = this.institucionRepository.create(createInstitucionDto);
+    await this.institucionRepository.save(institucion);
     return institucion;
   }
 
