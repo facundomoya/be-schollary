@@ -1,12 +1,10 @@
-import { Column, Entity, ForeignKey, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Evaluacion } from './evaluacion.entity';
 import { Alumno } from 'src/alumno/entities/alumno.entity';
+import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 
 @Entity('evaluacion_alumno')
-export class EvaluacionAlumno {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class EvaluacionAlumno extends ClaseBaseEntity {
   @Column()
   nota: number;
 

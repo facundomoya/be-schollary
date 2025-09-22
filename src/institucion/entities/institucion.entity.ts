@@ -1,11 +1,9 @@
 import { Modulo } from 'src/modulo/entities/modulo.entity';
 import { Alumno } from '../../alumno/entities/alumno.entity';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 @Entity('institucion')
-export class Institucion {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class Institucion extends ClaseBaseEntity {
     @Column()
     nombre: string;
 
@@ -14,7 +12,7 @@ export class Institucion {
 
     @ManyToMany(() => Modulo)
     @JoinTable({
-        name: 'institucion_modulo'
+        name: 'institucion_modulo',
     })
     modulos: Modulo[];
 };

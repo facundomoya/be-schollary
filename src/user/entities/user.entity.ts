@@ -1,11 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Institucion } from '../../institucion/entities/institucion.entity';
 import { Materia } from '../../materia/entities/materia.entity';
+import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 @Entity('user')
-export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class User extends ClaseBaseEntity {
     @Column()
     user_name: string;
 
