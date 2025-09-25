@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Institucion } from '../institucion/entities/institucion.entity';
 import { Bcrypt } from 'src/common/encriptador/bcrypt';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -13,26 +14,29 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private bcrypt: Bcrypt,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
     const institucionId = createUserDto.institucionId;
     user.password = await this.bcrypt.encriptar(user.password);
-    if(institucionId){
+    if (institucionId) {
       user.institucion = { id: institucionId } as Institucion;
     }
     await this.userRepository.save(user);
     return user;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(params: Partial<CreateUserDto>) {
+    const users = await this.userRepository.find({ where: { ...params } });
+    return users.map(({ password, ...rest }) => rest);
   }
 
-  findOne(id: number) {
-    const user = this.userRepository.findOne({ where: { id } });
-    return user;
+  async findOne(id: number) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    const { password, ...rest } = user;
+    return rest;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
