@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { AlumnoService } from './alumno.service';
 import { CreateAlumnoDto } from './dto/create-alumno.dto';
 import { UpdateAlumnoDto } from './dto/update-alumno.dto';
@@ -13,8 +13,8 @@ export class AlumnoController {
   }
 
   @Get()
-  findAll() {
-    return this.alumnoService.findAll();
+  findAll(@Query() query: Partial<CreateAlumnoDto>) {
+    return this.alumnoService.findAll(query);
   }
 
   @Get(':id')

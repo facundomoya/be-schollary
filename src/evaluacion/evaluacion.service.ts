@@ -4,15 +4,38 @@ import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Evaluacion } from './entities/evaluacion.entity';
+import { AlumnoService } from 'src/alumno/alumno.service';
+import { Materia } from 'src/materia/entities/materia.entity';
+import { EvaluacionAlumnoService } from './evaluacion_alumno.service';
+import { EvaluacionAlumno } from './entities/evaluacion_alumno.entity';
 
 @Injectable()
 export class EvaluacionService {
   constructor(
     @InjectRepository(Evaluacion)
-    private evaluacionRepository: Repository<Evaluacion>,
+    private readonly evaluacionRepository: Repository<Evaluacion>,
+    private readonly alumnoService: AlumnoService,
+    private readonly evaluacionAlumnoService: EvaluacionAlumnoService,
   ) {}
 
-  async create(createEvaluacionDto: CreateEvaluacionDto) {}
+  async create(createEvaluacionDto: CreateEvaluacionDto) {
+    const evaluacionData: Partial<Evaluacion> = {
+      materia: { id: createEvaluacionDto.materiaId } as Materia
+    };
+    const evaluacionAlumnoData: Partial<EvaluacionAlumno> = {
+      nota: createEvaluacionDto.nota
+    };
+    const alumnos = await this.alumnoService.findAll({});
+    const alumnosFiltrados = alumnos.filter(alumno =>
+    createEvaluacionDto.alumnosIds?.includes(alumno.id),
+    );
+    const nuevaEvaluacion = this.evaluacionRepository.create({
+      ...evaluacionData,
+    });
+    await this.evaluacionRepository.save(nuevaEvaluacion);
+    await this.evaluacionAlumnoService.create(evaluacionAlumnoData.nota, alumnosFiltrados, nuevaEvaluacion);
+    return nuevaEvaluacion;
+  }
 
   findAll() {
     return `This action returns all evaluacion`;

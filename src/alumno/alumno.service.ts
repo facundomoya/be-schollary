@@ -23,8 +23,9 @@ export class AlumnoService {
     return alumno;
   }
 
-  findAll() {
-    return `This action returns all alumno`;
+  async findAll(params: Partial<CreateAlumnoDto>) {
+    const alumnos = await this.alumnoRepository.find({ where: { ...params } });
+    return alumnos;
   }
 
   findOne(id: number) {
