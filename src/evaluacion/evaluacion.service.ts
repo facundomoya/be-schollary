@@ -7,7 +7,6 @@ import { Evaluacion } from './entities/evaluacion.entity';
 import { AlumnoService } from 'src/alumno/alumno.service';
 import { Materia } from 'src/materia/entities/materia.entity';
 import { EvaluacionAlumnoService } from './evaluacion_alumno.service';
-import { EvaluacionAlumno } from './entities/evaluacion_alumno.entity';
 
 @Injectable()
 export class EvaluacionService {
@@ -18,24 +17,28 @@ export class EvaluacionService {
     private readonly evaluacionAlumnoService: EvaluacionAlumnoService,
   ) {}
 
-  async create(createEvaluacionDto: CreateEvaluacionDto) {
-    const evaluacionData: Partial<Evaluacion> = {
-      materia: { id: createEvaluacionDto.materiaId } as Materia
-    };
-    const evaluacionAlumnoData: Partial<EvaluacionAlumno> = {
-      nota: createEvaluacionDto.nota
-    };
-    const alumnos = await this.alumnoService.findAll({});
-    const alumnosFiltrados = alumnos.filter(alumno =>
+async create(createEvaluacionDto: CreateEvaluacionDto) {
+  const evaluacionData: Partial<Evaluacion> = {
+    materia: { id: createEvaluacionDto.materiaId } as Materia,
+  };
+  // Buscar los alumnos que coinciden
+  const alumnos = await this.alumnoService.findAll({});
+  const alumnosFiltrados = alumnos.filter(alumno =>
     createEvaluacionDto.alumnosIds?.includes(alumno.id),
-    );
-    const nuevaEvaluacion = this.evaluacionRepository.create({
-      ...evaluacionData,
-    });
-    await this.evaluacionRepository.save(nuevaEvaluacion);
-    await this.evaluacionAlumnoService.create(evaluacionAlumnoData.nota, alumnosFiltrados, nuevaEvaluacion);
-    return nuevaEvaluacion;
+  );
+  // Crear la evaluación
+  const nuevaEvaluacion = this.evaluacionRepository.create({
+    ...evaluacionData,
+  });
+  await this.evaluacionRepository.save(nuevaEvaluacion);
+  // Ahora recorrer alumnos + notas
+  for (let i = 0; i < alumnosFiltrados.length; i++) {
+    const alumnos = alumnosFiltrados[i];
+    const nota = createEvaluacionDto.nota[i]; // la nota correspondiente
+    await this.evaluacionAlumnoService.create(nota, [alumnos], nuevaEvaluacion);
   }
+  return nuevaEvaluacion;
+}
 
   findAll() {
     return `This action returns all evaluacion`;

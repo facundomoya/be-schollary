@@ -6,7 +6,7 @@ export class CreateEvaluacionDto {
   materiaId: number;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsArray()
   nota: number;
 
   @IsNotEmpty()
