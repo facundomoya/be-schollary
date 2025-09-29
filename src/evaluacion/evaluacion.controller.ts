@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { EvaluacionService } from './evaluacion.service';
 import { CreateEvaluacionDto } from './dto/create-evaluacion.dto';
 import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Evaluacion')
 @Controller('evaluacion')
 export class EvaluacionController {
   constructor(private readonly evaluacionService: EvaluacionService) {}

@@ -9,7 +9,6 @@ async function bootstrap() {
     .setTitle('API Backend Schollary')
     .setDescription('API para la gestion de la plataforma Schollary')
     .setVersion('1.0')
-    .addTag('Schollary')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
