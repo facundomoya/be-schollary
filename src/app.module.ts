@@ -7,7 +7,6 @@ import { FacturaModule } from './factura/factura.module';
 import { ProyectoModule } from './proyecto/proyecto.module';
 import { RolModule } from './rol/rol.module';
 import { ContratoModule } from './contrato/contrato.module';
-import { HistorialClienteModule } from './historial_cliente/historial_cliente.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -29,7 +28,6 @@ import { HistorialClienteModule } from './historial_cliente/historial_cliente.mo
     ProyectoModule,
     RolModule,
     ContratoModule,
-    HistorialClienteModule,
   ],
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { HistorialClienteService } from './historial_cliente.service';
+import { HistorialClienteService } from '../cliente/historial_cliente.service';
 import { CreateHistorialClienteDto } from './dto/create-historial_cliente.dto';
 import { UpdateHistorialClienteDto } from './dto/update-historial_cliente.dto';
 

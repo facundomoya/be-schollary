@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HistorialClienteService } from './historial_cliente.service';
+import { HistorialClienteService } from '../cliente/historial_cliente.service';
 import { HistorialClienteController } from './historial_cliente.controller';
 
 @Module({

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateHistorialClienteDto } from './dto/create-historial_cliente.dto';
-import { UpdateHistorialClienteDto } from './dto/update-historial_cliente.dto';
+import { CreateHistorialClienteDto } from '../historial_cliente/dto/create-historial_cliente.dto';
+import { UpdateHistorialClienteDto } from '../historial_cliente/dto/update-historial_cliente.dto';
 
 @Injectable()
 export class HistorialClienteService {

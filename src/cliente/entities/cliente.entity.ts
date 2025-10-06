@@ -2,7 +2,7 @@ import { Alerta } from 'src/alerta/entities/alerta.entity';
 import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 import { Contrato } from 'src/contrato/entities/contrato.entity';
 import { Factura } from 'src/factura/entities/factura.entity';
-import { HistorialCliente } from 'src/historial_cliente/entities/historial_cliente.entity';
+import { HistorialCliente } from 'src/cliente/entities/historial_cliente.entity';
 import { Proyecto } from 'src/proyecto/entities/proyecto.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
 

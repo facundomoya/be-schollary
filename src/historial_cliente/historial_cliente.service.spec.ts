@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HistorialClienteService } from './historial_cliente.service';
+import { HistorialClienteService } from '../cliente/historial_cliente.service';
 
 describe('HistorialClienteService', () => {
   let service: HistorialClienteService;
