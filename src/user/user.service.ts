@@ -4,7 +4,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Institucion } from '../institucion/entities/institucion.entity';
 import { Bcrypt } from 'src/common/encriptador/bcrypt';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
@@ -17,14 +16,7 @@ export class UserService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    const user = this.userRepository.create(createUserDto);
-    const institucionId = createUserDto.institucionId;
-    user.password = await this.bcrypt.encriptar(user.password);
-    if (institucionId) {
-      user.institucion = { id: institucionId } as Institucion;
-    }
-    await this.userRepository.save(user);
-    return user;
+
   }
 
   async findAll(params: Partial<CreateUserDto>) {

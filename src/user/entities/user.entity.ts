@@ -1,7 +1,7 @@
-import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Institucion } from '../../institucion/entities/institucion.entity';
-import { Materia } from '../../materia/entities/materia.entity';
+import { Entity, Column, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 import { ClaseBaseEntity } from 'src/common/claseBase.entity';
+import { Rol } from 'src/rol/entities/rol.entity';
+import { HistorialCliente } from 'src/historial_cliente/entities/historial_cliente.entity';
 @Entity('user')
 export class User extends ClaseBaseEntity {
     @Column()
@@ -10,10 +10,9 @@ export class User extends ClaseBaseEntity {
     @Column()
     password: string;
 
-    @OneToOne(() => Institucion)
-    @JoinColumn()
-    institucion: Institucion;
+    @ManyToOne(() => Rol, (rol) => rol.users)
+    rol: Rol;
 
-    @OneToMany(() => Materia, (materia) => materia.user)
-    materias: Materia[];
+    @OneToMany(() => HistorialCliente, (historial) => historial.user)
+    historialesClientes: HistorialCliente[];
 };

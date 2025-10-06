@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { InstitucionModule } from './institucion/institucion.module';
-import { ModuloModule } from './modulo/modulo.module';
-import { AlumnoModule } from './alumno/alumno.module';
-import { AsistenciaModule } from './asistencia/asistencia.module';
-import { MateriaModule } from './materia/materia.module';
-import { EvaluacionModule } from './evaluacion/evaluacion.module';
 import { UserModule } from './user/user.module';
-
+import { ClienteModule } from './cliente/cliente.module';
+import { AlertaModule } from './alerta/alerta.module';
+import { FacturaModule } from './factura/factura.module';
+import { ProyectoModule } from './proyecto/proyecto.module';
+import { RolModule } from './rol/rol.module';
+import { ContratoModule } from './contrato/contrato.module';
+import { HistorialClienteModule } from './historial_cliente/historial_cliente.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,15 +22,14 @@ import { UserModule } from './user/user.module';
       synchronize: false,
       logging: true,
     }),
-
-
-    InstitucionModule,
     UserModule,
-    ModuloModule,
-    AlumnoModule,
-    AsistenciaModule,
-    MateriaModule,
-    EvaluacionModule,
+    ClienteModule,
+    AlertaModule,
+    FacturaModule,
+    ProyectoModule,
+    RolModule,
+    ContratoModule,
+    HistorialClienteModule,
   ],
 })
 export class AppModule { }
