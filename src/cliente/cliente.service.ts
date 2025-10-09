@@ -82,7 +82,24 @@ export class ClienteService {
     }
   };
 
-  update(id: number) {
+  async update(id: number, updateClienteDto: UpdateClienteDto) {
+    try {
+      const cliente = await this.clienteRepository.findOneBy({ id });
+      if (!cliente) {
+        return {
+          message: 'No se encontro el cliente.',
+          data: null,
+        };
+      }
+      const updatedCliente = this.clienteRepository.merge(cliente, updateClienteDto);
+      await this.clienteRepository.save(updatedCliente);
+      return {
+        message: 'Cliente actualizado correctamente.',
+        data: updatedCliente,
+      };
+    } catch (error) {
+      throw new BadRequestException(`Error al actualizar el cliente: ${error.message}`);
+    }
   }
 
   remove(id: number) {

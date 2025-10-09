@@ -2,10 +2,8 @@ import { Cliente } from 'src/cliente/entities/cliente.entity';
 import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('contrato')
 export class Contrato extends ClaseBaseEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
 
     @Column()
     fechaInicio: Date;

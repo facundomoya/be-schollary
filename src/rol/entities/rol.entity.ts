@@ -4,8 +4,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('rol')
 export class Rol extends ClaseBaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+
     @Column()
     nombre: string;
     @Column()

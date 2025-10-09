@@ -2,10 +2,9 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 import { Cliente } from 'src/cliente/entities/cliente.entity';
 
-@Entity()
+@Entity('proyecto')
 export class Proyecto extends ClaseBaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+ 
     @Column()
     nombre_proyecto: string;
     @Column()
