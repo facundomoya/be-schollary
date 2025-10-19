@@ -41,6 +41,6 @@ export class Cliente extends ClaseBaseEntity {
   @OneToMany(() => HistorialCliente, (historialcliente) => historialcliente.cliente)
   historial: HistorialCliente[];
 
-  @ManyToOne(() => Contrato, (contrato) => contrato.cliente)
+  @OneToMany(() => Contrato, (contrato) => contrato.cliente)
   contratos: Contrato[];
 }
