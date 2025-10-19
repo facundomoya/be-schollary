@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { ClienteService } from './cliente.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Cliente')
 @Controller('cliente')
 export class ClienteController {
   constructor(private readonly clienteService: ClienteService) {}
 
-  @Post()
+  @Post("/crear")
   create(@Body() createClienteDto: CreateClienteDto) {
-    return this.clienteService.create(createClienteDto);
+    const cliente = this.clienteService.create(createClienteDto);
+    return cliente;
   }
 
   @Get()
@@ -23,7 +26,7 @@ export class ClienteController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
+  update(@Param('id') id: number, @Body() updateClienteDto: UpdateClienteDto) {
     return this.clienteService.update(+id, updateClienteDto);
   }
 

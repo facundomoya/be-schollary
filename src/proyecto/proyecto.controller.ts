@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProyectoService } from './proyecto.service';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Proyecto')
 @Controller('proyecto')
 export class ProyectoController {
   constructor(private readonly proyectoService: ProyectoService) {}

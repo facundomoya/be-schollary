@@ -3,10 +3,8 @@ import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 import { Cliente } from 'src/cliente/entities/cliente.entity';
 import { User } from 'src/user/entities/user.entity';
 
-@Entity()
+@Entity('historial_cliente')
 export class HistorialCliente extends ClaseBaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
 
     @Column()
     fecha: Date;

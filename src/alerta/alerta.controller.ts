@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AlertaService } from './alerta.service';
 import { CreateAlertaDto } from './dto/create-alerta.dto';
 import { UpdateAlertaDto } from './dto/update-alerta.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Alerta')
 @Controller('alerta')
 export class AlertaController {
   constructor(private readonly alertaService: AlertaService) {}
