@@ -1,40 +1,35 @@
-import { IsInt, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateClienteDto {
         @ApiProperty({ example: 'usuario123' })
         @IsString()
-        @IsNotEmpty()
+        @IsNotEmpty({message: 'El nombre es obligatorio'})
         nombre: string;
     
         @ApiProperty({ example: 'ejemplo@gmail.com' })
         @IsString()
-        @IsNotEmpty()
+        @IsNotEmpty({message: 'El email es obligatorio'})
         @MinLength(4)
         email: string;
     
         @ApiProperty({ example: 3811234567 })
-        @IsInt()
-        @IsNotEmpty()
+        @IsString()
+        @IsNotEmpty({message: 'El número de teléfono es obligatorio'})
         telefono: string;
 
         @ApiProperty({ example: 'Calle Falsa 123' })
         @IsString()
-        @IsNotEmpty()
+        @IsNotEmpty({message: 'La dirección es obligatoria'})
         direccion: string;
 
         @ApiProperty({ example: '20-12345678-9' })
         @IsString()
-        @IsNotEmpty()
+        @IsNotEmpty({message: 'El CUIT es obligatorio'})
         cuit: string;
 
         @ApiProperty({ example: 'activo' })
         @IsString()
-        @IsNotEmpty()
+        @IsNotEmpty({message: 'El estado es obligatorio'})
         estado: string;
-
-        @ApiProperty({ example: 1, description: 'ID del contrato' })
-        @IsInt()
-        @IsNotEmpty()
-        contratosId: number;
 }

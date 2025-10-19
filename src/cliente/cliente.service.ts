@@ -13,50 +13,30 @@ export class ClienteService {
 
   async create(createClienteDto: CreateClienteDto) {
     try {
-      const existingCliente = await this.clienteRepository.findOne({
+      const cliente = await this.clienteRepository.findOne({
         where: [
           { nombre: createClienteDto.nombre },
-          { cuit: createClienteDto.cuit },
-          { email: createClienteDto.email },
-        ],
+          { telefono: createClienteDto.telefono }
+        ]
       });
-      if (existingCliente) {
-        let campoDuplicado = '';
-        if (existingCliente.nombre === createClienteDto.nombre) {
-          campoDuplicado = `nombre ${createClienteDto.nombre}`;
-        } else if (existingCliente.cuit === createClienteDto.cuit) {
-          campoDuplicado = `CUIT ${createClienteDto.cuit}`;
-        } else if (existingCliente.email === createClienteDto.email) {
-          campoDuplicado = `email ${createClienteDto.email}`;
-        }
-        throw new BadRequestException(
-          `Ya existe un cliente registrado con el ${campoDuplicado}.`,
-        );
+      if (cliente) {
+        throw new BadRequestException('El nombre del cliente o el teléfono ya están en uso.');
       }
-      const cliente = this.clienteRepository.create(createClienteDto);
-      const savedCliente = await this.clienteRepository.save(cliente);
+      const nuevoCliente = this.clienteRepository.create(createClienteDto);
+      await this.clienteRepository.save(nuevoCliente);
       return {
         message: 'Cliente creado correctamente.',
-        data: savedCliente,
+        data: nuevoCliente,
       };
     } catch (error) {
-      throw new BadRequestException(
-        `Error al crear el cliente: ${error.message}`,
-      );
+      throw new BadRequestException(`Error al crear el cliente: ${error.message}`);
     }
   };
 
   async findAll() {
     try {
       const clientes = await this.clienteRepository.find();
-      if (clientes.length === 0) {
-        return {
-          message: 'No hay clientes registrados.',
-          data: [],
-        };
-      }
       return {
-        message: 'Lista de clientes obtenida correctamente.',
         data: clientes,
       };
     } catch (error) {
@@ -74,7 +54,6 @@ export class ClienteService {
         };
       }
       return {
-        message: 'Cliente obtenido correctamente.',
         data: cliente,
       };
     } catch (error) {
@@ -100,8 +79,9 @@ export class ClienteService {
     } catch (error) {
       throw new BadRequestException(`Error al actualizar el cliente: ${error.message}`);
     }
-  }
+  };
 
   remove(id: number) {
-  }
+  };
+
 }
