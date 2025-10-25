@@ -81,7 +81,23 @@ export class ClienteService {
     }
   };
 
-  remove(id: number) {
+  async remove(id: number) {
+    try {
+      const cliente = await this.clienteRepository.findOneBy({ id });
+      if (!cliente) {
+        return {
+          message: 'No se encontró el cliente.',
+          data: null,
+        };
+      }
+      await this.clienteRepository.softDelete(cliente);
+      return {
+        message: 'Cliente eliminado correctamente.',
+        data: cliente,
+      };
+    } catch (error) {
+      throw new BadRequestException(`Error al eliminar el cliente: ${error.message}`);
+    }
   };
 
 }

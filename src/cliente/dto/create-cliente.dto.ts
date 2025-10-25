@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateClienteDto {
@@ -11,6 +11,7 @@ export class CreateClienteDto {
         @IsString()
         @IsNotEmpty({message: 'El email es obligatorio'})
         @MinLength(4)
+        @IsEmail()
         email: string;
     
         @ApiProperty({ example: 3811234567 })
