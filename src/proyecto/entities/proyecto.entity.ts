@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ClaseBaseEntity } from 'src/common/claseBase.entity';
 import { Cliente } from 'src/cliente/entities/cliente.entity';
+import { Factura } from 'src/factura/entities/factura.entity';
 
 @Entity('proyecto')
 export class Proyecto extends ClaseBaseEntity {
@@ -18,4 +19,7 @@ export class Proyecto extends ClaseBaseEntity {
 
     @ManyToOne(() => Cliente, (cliente) => cliente.proyectos)
     cliente: Cliente;
+
+    @OneToMany(() => Factura, (factura) => factura.proyecto)
+    facturas: Factura[];
 }
