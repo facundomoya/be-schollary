@@ -1,103 +1,91 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Cliente } from './entities/cliente.entity';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Cliente } from './entities/cliente.entity';
-import { Repository } from 'typeorm';
+
 @Injectable()
 export class ClienteService {
   constructor(
     @InjectRepository(Cliente)
-    private clienteRepository: Repository<Cliente>,
-  ) { }
+    private readonly clienteRepository: Repository<Cliente>,
+  ) {}
 
-  async create(createClienteDto: CreateClienteDto) {
+  async create(createClienteDto: CreateClienteDto): Promise<{ message: string } & Cliente> {
     try {
-      const cliente = await this.clienteRepository.findOne({
-        where: [
-          { nombre: createClienteDto.nombre },
-          { telefono: createClienteDto.telefono }
-        ]
-      });
-      if (cliente) {
-        throw new BadRequestException('El nombre del cliente o el teléfono ya están en uso.');
-      }
-      const nuevoCliente = this.clienteRepository.create(createClienteDto);
-      await this.clienteRepository.save(nuevoCliente);
+      const cliente = this.clienteRepository.create(createClienteDto);
+      await this.clienteRepository.save(cliente);
       return {
-        message: 'Cliente creado correctamente.',
-        data: nuevoCliente,
+        message: 'Cliente creado correctamente',
+        ...cliente,
       };
     } catch (error) {
-      throw new BadRequestException(`Error al crear el cliente: ${error.message}`);
+      throw new InternalServerErrorException('Error al crear el cliente', error.message);
     }
-  };
+  }
 
-  async findAll() {
+  async findAll(): Promise<{ message: string; records: Cliente[] }> {
     try {
       const clientes = await this.clienteRepository.find();
       return {
-        data: clientes,
+        message: 'Clientes obtenidos correctamente',
+        records: clientes,
       };
     } catch (error) {
-      throw new BadRequestException('Error al obtener los clientes.');
+      throw new InternalServerErrorException('Error al obtener los clientes', error.message);
     }
-  };
+  }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<{ message: string } & Cliente> {
+    try {
+      const cliente = await this.clienteRepository.findOne({
+        where: { id },
+        relations: ['alertas', 'facturas', 'proyectos', 'historial', 'contratos'],
+      });
+      if (!cliente) {
+        throw new NotFoundException('Cliente no encontrado.');
+      }
+      return {
+        message: 'Cliente obtenido correctamente',
+        ...cliente,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Error interno al obtener el cliente', error.message);
+    }
+  }
+
+  async update(id: number, updateClienteDto: UpdateClienteDto): Promise<{ message: string } & Cliente> {
     try {
       const cliente = await this.clienteRepository.findOneBy({ id });
       if (!cliente) {
-        return {
-          message: 'No se encontró el cliente.',
-          data: null,
-        };
+        throw new NotFoundException('Cliente no encontrado para actualizar.');
       }
+      await this.clienteRepository.update(id, updateClienteDto);
+      const updatedCliente = await this.clienteRepository.findOneBy({ id });
       return {
-        data: cliente,
+        message: 'Cliente actualizado correctamente',
+        ...updatedCliente,
       };
     } catch (error) {
-      throw new BadRequestException('Error al obtener el cliente.');
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Error interno al actualizar el cliente', error.message);
     }
-  };
+  }
 
-  async update(id: number, updateClienteDto: UpdateClienteDto) {
+  async remove(id: number): Promise<{ message: string }> {
     try {
-      const cliente = await this.clienteRepository.findOneBy({ id });
-      if (!cliente) {
-        return {
-          message: 'No se encontro el cliente.',
-          data: null,
-        };
+      const result = await this.clienteRepository.softDelete(id);
+      if (result.affected === 0) {
+        throw new NotFoundException('Cliente no encontrado para eliminar.');
       }
-      const updatedCliente = this.clienteRepository.merge(cliente, updateClienteDto);
-      await this.clienteRepository.save(updatedCliente);
       return {
-        message: 'Cliente actualizado correctamente.',
-        data: updatedCliente,
+        message: 'Cliente eliminado correctamente',
       };
     } catch (error) {
-      throw new BadRequestException(`Error al actualizar el cliente: ${error.message}`);
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Error interno al eliminar el cliente', error.message);
     }
-  };
-
-  async remove(id: number) {
-    try {
-      const cliente = await this.clienteRepository.findOneBy({ id });
-      if (!cliente) {
-        return {
-          message: 'No se encontró el cliente.',
-          data: null,
-        };
-      }
-      await this.clienteRepository.softDelete(cliente);
-      return {
-        message: 'Cliente eliminado correctamente.',
-        data: cliente,
-      };
-    } catch (error) {
-      throw new BadRequestException(`Error al eliminar el cliente: ${error.message}`);
-    }
-  };
-
+  }
 }
