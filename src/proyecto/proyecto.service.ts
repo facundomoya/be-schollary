@@ -1,47 +1,89 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Proyecto } from './entities/proyecto.entity';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Proyecto } from './entities/proyecto.entity';
-import { Repository } from 'typeorm';
 import { Cliente } from 'src/cliente/entities/cliente.entity';
+
 @Injectable()
 export class ProyectoService {
   constructor(
     @InjectRepository(Proyecto)
-    private proyectoRepository: Repository<Proyecto>,
+    private readonly proyectoRepository: Repository<Proyecto>,
+
+    @InjectRepository(Cliente)
+    private readonly clienteRepository: Repository<Cliente>,
   ) { }
 
-  async create(createProyectoDto: CreateProyectoDto, ): Promise<{ proyecto: Proyecto; message: string }> {
-      const proyectoExistente = await this.proyectoRepository.findOneBy({ nombre_proyecto: createProyectoDto.nombre_proyecto });
-      if (proyectoExistente) {
-        throw new ConflictException('Ya existe un proyecto con ese nombre.');
+  async create(createProyectoDto: CreateProyectoDto): Promise<{ message: string } & Proyecto> {
+    try {
+      const { clienteId, ...data } = createProyectoDto;
+      const cliente = await this.clienteRepository.findOneBy({ id: Number(clienteId) });
+      if (!cliente) {
+        throw new NotFoundException('Cliente asociado no encontrado.');
       }
-      const { clienteId, ...rest } = createProyectoDto;
-      const nuevoProyecto = this.proyectoRepository.create({
-        ...rest,
-        cliente: { id: Number(clienteId) } as Cliente
+      const proyecto = this.proyectoRepository.create({
+        ...data,
+        cliente,
       });
-      const proyectoGuardado = await this.proyectoRepository.save(nuevoProyecto);
+      await this.proyectoRepository.save(proyecto);
       return {
-        proyecto: proyectoGuardado,
-        message: 'Proyecto creado correctamente.'
+        message: 'Proyecto creado correctamente',
+        ...proyecto,
       };
-  };
-
-  findAll() {
-    return `This action returns all proyecto`;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException({ 'Error al crear el proyecto': error.message });
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} proyecto`;
+  async findAll(): Promise<{ message: string; records: Proyecto[] }> {
+    const proyectos = await this.proyectoRepository.find();
+    return {
+      message: 'Proyectos obtenidos correctamente',
+      records: proyectos,
+    };
   }
 
-  update(id: number, updateProyectoDto: UpdateProyectoDto) {
-    return `This action updates a #${id} proyecto`;
+  async update(id: number, updateProyectoDto: UpdateProyectoDto): Promise<{ message: string } & Proyecto> {
+    try {
+      const proyecto = await this.proyectoRepository.findOneBy({ id });
+      if (!proyecto) {
+        throw new NotFoundException('Proyecto no encontrado para actualizar.');
+      }
+      await this.proyectoRepository.update(id, updateProyectoDto)
+      const updatedProyecto = await this.proyectoRepository.findOneBy({ id });
+
+      return {
+        message: 'Proyecto actualizado correctamente',
+        ...updatedProyecto,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException({ message: "Error interno al actualizar el proyecto", error: error.message });
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} proyecto`;
+  async remove(id: number): Promise<{ message: string }> {
+    try {
+      const result = await this.proyectoRepository.softDelete(id);
+
+      if (result.affected === 0) {
+        throw new NotFoundException('Proyecto no encontrado para eliminar.');
+      }
+
+      return {
+        message: 'Proyecto eliminado correctamente',
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+
+      throw new InternalServerErrorException({ 'Error interno al eliminar el proyecto': error.message });
+    }
   }
 }

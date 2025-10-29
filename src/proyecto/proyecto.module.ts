@@ -3,9 +3,11 @@ import { ProyectoService } from './proyecto.service';
 import { ProyectoController } from './proyecto.controller';
 import { Proyecto } from './entities/proyecto.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Cliente } from 'src/cliente/entities/cliente.entity';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Proyecto])],
+  imports: [TypeOrmModule.forFeature([Proyecto, Cliente])],
   controllers: [ProyectoController],
   providers: [ProyectoService],
 })

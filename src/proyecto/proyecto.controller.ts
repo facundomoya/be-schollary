@@ -11,18 +11,13 @@ export class ProyectoController {
   constructor(private readonly proyectoService: ProyectoService) {}
 
   @Post("/crear")
-  async create(@Body() createProyectoDto: CreateProyectoDto){
+  create(@Body() createProyectoDto: CreateProyectoDto){
     return this.proyectoService.create(createProyectoDto);
   }
 
   @Get()
   findAll() {
     return this.proyectoService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.proyectoService.findOne(+id);
   }
 
   @Patch(':id')

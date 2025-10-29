@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsDate, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateProyectoDto {
     @ApiProperty({ example: 'Proyecto de ejemplo' })
@@ -18,14 +19,16 @@ export class CreateProyectoDto {
     estado: string;
 
     @ApiProperty({ example: '2024-01-01' })
-    @IsString({message: 'La fecha de inicio debe ser una cadena de texto'})
+    @Type (() => Date)
+    @IsDate({message: 'La fecha de inicio debe ser una fecha válida'})
     @IsNotEmpty({message: 'La fecha de inicio es obligatoria'})
-    fecha_inicio: string;
+    fecha_inicio: Date;
 
     @ApiProperty({ example: '2024-12-31' })
-    @IsString({message: 'La fecha de fin debe ser una cadena de texto'})
+    @Type (() => Date)
+    @IsDate({message: 'La fecha de fin debe ser una fecha válida'})
     @IsNotEmpty({message: 'La fecha de fin es obligatoria'})
-    fecha_fin: string;
+    fecha_fin: Date;
 
     @ApiProperty({ example: '1' })
     @IsNotEmpty({message: 'El ID del cliente es obligatorio'})

@@ -10,38 +10,32 @@ export class ClienteService {
   constructor(
     @InjectRepository(Cliente)
     private readonly clienteRepository: Repository<Cliente>,
-  ) {}
+  ) { }
 
   async create(createClienteDto: CreateClienteDto): Promise<{ message: string } & Cliente> {
-    try {
-      const cliente = this.clienteRepository.create(createClienteDto);
-      await this.clienteRepository.save(cliente);
-      return {
-        message: 'Cliente creado correctamente',
-        ...cliente,
-      };
-    } catch (error) {
-      throw new InternalServerErrorException('Error al crear el cliente', error.message);
-    }
+    const cliente = this.clienteRepository.create(createClienteDto);
+    await this.clienteRepository.save(cliente);
+    return {
+      message: 'Cliente creado correctamente',
+      ...cliente,
+    };
   }
 
   async findAll(): Promise<{ message: string; records: Cliente[] }> {
-    try {
-      const clientes = await this.clienteRepository.find();
-      return {
-        message: 'Clientes obtenidos correctamente',
-        records: clientes,
-      };
-    } catch (error) {
-      throw new InternalServerErrorException('Error al obtener los clientes', error.message);
-    }
+    const clientes = await this.clienteRepository.find({
+      relations: ['proyectos']
+    });
+    return {
+      message: 'Clientes obtenidos correctamente',
+      records: clientes,
+    };
   }
 
   async findOne(id: number): Promise<{ message: string } & Cliente> {
     try {
       const cliente = await this.clienteRepository.findOne({
         where: { id },
-        relations: ['alertas', 'facturas', 'proyectos', 'historial', 'contratos'],
+        relations: ['proyectos']
       });
       if (!cliente) {
         throw new NotFoundException('Cliente no encontrado.');
@@ -51,7 +45,9 @@ export class ClienteService {
         ...cliente,
       };
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Error interno al obtener el cliente', error.message);
     }
   }
