@@ -1,17 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Res, Query } from '@nestjs/common';
+import { Response } from 'express';
 import { FacturaService } from './factura.service';
+import { FacturaPdfService } from './factura_pdf.service';
 import { CreateFacturaDto } from './dto/create-factura.dto';
-import { UpdateFacturaDto } from './dto/update-factura.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Factura')
 @Controller('factura')
 export class FacturaController {
-  constructor(private readonly facturaService: FacturaService) {}
+  constructor(
+    private readonly facturaService: FacturaService,
+    private readonly facturaPdfService: FacturaPdfService,
+  ) {}
 
-  @Post()
-  create(@Body() createFacturaDto: CreateFacturaDto) {
-    return this.facturaService.create(createFacturaDto);
+  @Post("/crear")
+  create(@Body() dto: CreateFacturaDto) {
+    return this.facturaService.create(dto);
   }
 
   @Get()
@@ -24,13 +28,9 @@ export class FacturaController {
     return this.facturaService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFacturaDto: UpdateFacturaDto) {
-    return this.facturaService.update(+id, updateFacturaDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.facturaService.remove(+id);
+  @Get(':id/pdf')
+  async verFacturaPDF(@Param('id') id: string, @Res() res: Response) {
+    const factura = await this.facturaService.getFacturaParaPDF(+id);
+    await this.facturaPdfService.generarPDFStream(factura, res);
   }
 }

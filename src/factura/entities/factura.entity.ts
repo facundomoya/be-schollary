@@ -18,6 +18,9 @@ export class Factura extends ClaseBaseEntity{
   @Column()
   descripcion: string;
 
+  @Column()
+  numero: string;
+
   @ManyToOne(() => Cliente, (cliente) => cliente.facturas)
   cliente: Cliente;
 

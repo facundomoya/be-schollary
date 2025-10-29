@@ -7,7 +7,7 @@ export const AppDataSource = new DataSource({
   username: "root",
   password: "1234",
   database: "schollary",
-  entities: ["src/**/entities/*.ts"], // tal vez si surge error debo poner __dirname
+  entities: ["src/**/entities/*.ts"],
   migrations: ["src/migrations/**/*.ts"],
   synchronize: false,
   logging: true,

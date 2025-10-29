@@ -65,7 +65,9 @@ export class ClienteService {
         ...updatedCliente,
       };
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Error interno al actualizar el cliente', error.message);
     }
   }
@@ -80,7 +82,9 @@ export class ClienteService {
         message: 'Cliente eliminado correctamente',
       };
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Error interno al eliminar el cliente', error.message);
     }
   }

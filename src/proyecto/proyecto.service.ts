@@ -11,7 +11,6 @@ export class ProyectoService {
   constructor(
     @InjectRepository(Proyecto)
     private readonly proyectoRepository: Repository<Proyecto>,
-
     @InjectRepository(Cliente)
     private readonly clienteRepository: Repository<Cliente>,
   ) { }
@@ -72,16 +71,16 @@ export class ProyectoService {
   async remove(id: number): Promise<{ message: string }> {
     try {
       const result = await this.proyectoRepository.softDelete(id);
-
       if (result.affected === 0) {
         throw new NotFoundException('Proyecto no encontrado para eliminar.');
       }
-
       return {
         message: 'Proyecto eliminado correctamente',
       };
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
 
       throw new InternalServerErrorException({ 'Error interno al eliminar el proyecto': error.message });
     }
