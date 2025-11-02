@@ -9,7 +9,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AlertaController {
   constructor(private readonly alertaService: AlertaService) {}
 
-  @Post()
+  @Post("/crear")
   create(@Body() createAlertaDto: CreateAlertaDto) {
     return this.alertaService.create(createAlertaDto);
   }
