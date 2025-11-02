@@ -19,9 +19,9 @@ export class ClienteController {
     return this.clienteService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clienteService.findOne(+id);
+  @Get(':cuit')
+  findOne(@Param('cuit') cuit: string) {
+    return this.clienteService.findOne(cuit);
   }
 
   @Patch(':id')

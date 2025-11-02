@@ -31,10 +31,10 @@ export class ClienteService {
     };
   }
 
-  async findOne(id: number): Promise<{ message: string } & Cliente> {
+  async findOne(cuit: string): Promise<{ message: string } & Cliente> {
     try {
       const cliente = await this.clienteRepository.findOne({
-        where: { id },
+        where: { cuit },
         relations: ['proyectos']
       });
       if (!cliente) {

@@ -12,8 +12,8 @@ export class CreateUserDto {
     @MinLength(4)
     password: string;
 
-    @ApiProperty({ example: 1, description: 'ID de la institucion' })
+    @ApiProperty({ example: 1, description: 'ID del rol' })
     @IsInt()
     @IsNotEmpty()
-    institucionId: number;
+    rolId: number;
 }
